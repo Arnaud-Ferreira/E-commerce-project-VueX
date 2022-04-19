@@ -8,9 +8,8 @@
         <div class="product-image" :style="{backgroundImage: 'url(' + product.image + ')'}"></div>
         <h4>{{ product.title }}</h4>
         <p class="price">{{ product.price.toFixed(2) }} euros</p>
-        <button>Add to bag</button>
+        <button @click="addToBag(product)">Add to bag</button>
       </div>
-  
     </div>
 
   </div>
@@ -28,11 +27,18 @@ export default {
   computed: {
     products() {
       return this.$store.state.products
-    }
+    },
+    productsInBag() {
+      return this.$store.state.productsInBag;
+    },
   },
 
   methods: {
-   
+    addToBag(product) {
+      product.quantity = 1;
+      this.$store.dispatch('addToBag', product);
+      
+    }
   }
 }
 </script>
