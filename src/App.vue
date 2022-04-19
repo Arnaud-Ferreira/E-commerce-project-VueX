@@ -38,7 +38,7 @@
 }
 
 #nav {
-  padding: 16px 0;
+  padding: 22px 0;
   position: fixed;
   z-index: 1;
   top: 0;
@@ -52,10 +52,15 @@
   a {
     color: white;
     text-decoration: none;
+    font-size: 1.2rem;
 
     &.router-link-exact-active {
       color: #007bff;
     }
+  }
+
+  a:hover{
+    color: #007bff;
   }
 }
 </style>
