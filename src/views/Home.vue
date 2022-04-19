@@ -11,7 +11,11 @@
         <h4>{{ product.title }}</h4>
         <p class="price">{{ product.price.toFixed(2) }} euros</p>
         <button v-if="!isInBag(product)" @click="addToBag(product)">Add to bag</button>
-        <button v-else class="remove">Remove from bag</button>
+        <button
+         v-else
+         class="remove"
+         @click="this.$store.dispatch('removeFromBag', product.id)"
+         >Remove from bag</button>
       </div>
     </div>
 
@@ -19,6 +23,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 
 export default {
   name: 'HomeComp',
@@ -27,14 +32,19 @@ export default {
       
     }
   },
-  computed: {
-    products() {
-      return this.$store.state.products
-    },
-    productsInBag() {
-      return this.$store.state.productsInBag;
-    },
-  },
+
+  // Using MapState Helper
+  computed: mapState([
+      'products',
+      'productsInBag'
+    ]),
+
+    // products() {
+    //   return this.$store.state.products
+    // },
+    // productsInBag() {
+    //   return this.$store.state.productsInBag;
+    // },
 
   methods: {
     addToBag(product) {
