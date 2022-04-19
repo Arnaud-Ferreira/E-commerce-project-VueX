@@ -2,33 +2,52 @@
   <div class="basket">
     <div class="items">
 
-      <div class="item">
-        <div class="remove">Remove item</div>
-        <div class="photo"><img src="https://fakestoreapi.com/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_.jpg" alt=""></div>
-        <div class="description">Mens Casual Premium Slim Fit T-Shirts </div>
+      <template v-if="productsInBag.length">
+
+      <div v-for="(index, product) in productsInBag" :key="index" class="item">
+        <div class="remove" @click="this.$store.dispatch('removeFromBag', product.id)">Remove item</div>
+        <div class="photo"><img :src="product.image" alt=""></div>
+        <div class="description">{{ product.title }} </div>
         <div class="price">
           <span class="quantity-area">
-            <button disabled="">-</button>
-            <span class="quantity">1</span>
-            <button>+</button>
+            <button :disabled="product.quantity <= 1" @click="product.quantity--">-</button>
+            <span class="quantity">{{ product.quantity }}</span>
+            <button @click="product.quantity++">+</button>
           </span>
-          <span class="amount">US$ 22.30</span>
+          <span class="amount">{{ (product.price * product.quantity).toFixed(2) }} euros</span>
         </div>
       </div>
-      <div class="grand-total"> Grand Total: 22.30e</div>
+      <div class="grand-total">Total order: {{ orderTotal() }} euros</div>
+
+      </template>
+
+     <template v-else>
+       <h4>No items in bag yet</h4>
+     </template>
 
     </div>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex';
 
 export default {
   name: 'BasketComp',
 
   methods: {
-   
+   orderTotal() {
+     var total = 0;
+     this.productsInBag.forEach(item => {
+       total += item.price * item.quantity;
+     });
+     return total.toFixed();
+   }
   },
+  // Only need products in Bag here
+  computed: mapState([
+    'productsInBag'
+  ]),
  
 }
 </script>
