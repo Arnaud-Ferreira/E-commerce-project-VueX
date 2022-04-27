@@ -1,54 +1,57 @@
 <template>
   <div class="basket">
     <div class="items">
-
+      
       <template v-if="productsInBag.length">
 
-      <div v-for="(index, product) in productsInBag" :key="index" class="item">
-        <div class="remove" @click="this.$store.dispatch('removeFromBag', product.id)">Remove item</div>
-        <div class="photo"><img :src="product.image" alt=""></div>
-        <div class="description">{{ product.title }} </div>
-        <div class="price">
-          <span class="quantity-area">
-            <button :disabled="product.quantity <= 1" @click="product.quantity--">-</button>
-            <span class="quantity">{{ product.quantity }}</span>
-            <button @click="product.quantity++">+</button>
-          </span>
-          <span class="amount">{{ (product.price * product.quantity).toFixed(2) }} euros</span>
+        <div v-for="(product, index) in productsInBag" :key="index" class="item">
+          <div class="remove" @click="this.$store.dispatch('removeFromBag', product.id)">Remove item</div>
+          <div class="photo">
+            <img :src="product.image" alt="">
+          </div>
+          <div class="description">
+              {{product.title}}
+          </div>
+          <div class="price">
+            <span class="quantity-area">
+              <button :disabled="product.quantity<=1" @click="product.quantity--">-</button>
+              <span class="quantity">{{product.quantity}}</span>
+              <button @click="product.quantity++">+</button>
+            </span>
+            <span class="amount">{{ (product.price * product.quantity).toFixed(2) }} euros</span>
+          </div>
         </div>
-      </div>
-      <div class="grand-total">Total order: {{ orderTotal() }} euros</div>
+        <div class="grand-total"> Total order :  {{orderTotal()}} euros</div>
 
       </template>
 
-     <template v-else>
-       <h4>No items in bag yet</h4>
-     </template>
+      <template v-else>
+        <h4>No items in bag yet</h4>
+      </template>
 
     </div>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
+
+import { mapState } from 'vuex'
 
 export default {
   name: 'BasketComp',
 
   methods: {
-   orderTotal() {
-     var total = 0;
-     this.productsInBag.forEach(item => {
-       total += item.price * item.quantity;
-     });
-     return total.toFixed();
-   }
+    orderTotal() {
+      var total = 0;
+      this.productsInBag.forEach(item => {
+        total += item.price * item.quantity;
+      });
+      return total.toFixed(2);
+    }
   },
-  // Only need products in Bag here
   computed: mapState([
-    'productsInBag'
+    'productsInBag' 
   ]),
- 
 }
 </script>
 

@@ -3,27 +3,27 @@
     <div class="products">
 
       <div 
-      v-for="(product, index) in this.products" :key="index" 
-      class="product"
-      :class="{ inBag: isInBag(product)}"
-      >
-        <div class="product-image" :style="{backgroundImage: 'url(' + product.image + ')'}"></div>
-        <h4>{{ product.title }}</h4>
-        <p class="price">{{ product.price.toFixed(2) }} euros</p>
+        v-for="(product, index) in this.products" :key="index"
+        class="product"
+        :class="{ inBag : isInBag(product) }"
+        >
+        <div class="product-image" :style="{backgroundImage: 'url(' + product.image + ')'}">
+        </div>
+        <h4>{{product.title}}</h4>
+        <p class="price">{{product.price.toFixed(2)}} euros</p>
         <button v-if="!isInBag(product)" @click="addToBag(product)">Add to bag</button>
-        <button
-         v-else
-         class="remove"
-         @click="this.$store.dispatch('removeFromBag', product.id)"
-         >Remove from bag</button>
+        <button 
+          v-else 
+          class="remove"
+          @click="this.$store.dispatch('removeFromBag', product.id)"
+          >Remove from bag</button>
       </div>
     </div>
-
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState } from 'vuex'
 
 export default {
   name: 'HomeComp',
@@ -32,28 +32,17 @@ export default {
       
     }
   },
-
-  // Using MapState Helper
   computed: mapState([
-      'products',
-      'productsInBag'
-    ]),
-
-    // products() {
-    //   return this.$store.state.products
-    // },
-    // productsInBag() {
-    //   return this.$store.state.productsInBag;
-    // },
+    'products', 
+    'productsInBag' 
+  ]),
 
   methods: {
     addToBag(product) {
       product.quantity = 1;
       this.$store.dispatch('addToBag', product);
-      
     },
     isInBag(product) {
-      // We use find method here, just to know if the product is here
       return this.productsInBag.find(item => item.id == product.id)
     }
   }
@@ -99,7 +88,7 @@ export default {
           background-repeat: no-repeat;
         }
         h4 {
-          margin: 24px auto;
+          margin: 22px auto;
           font-size: 12px;
           max-width: 60%;
           font-weight: normal;
